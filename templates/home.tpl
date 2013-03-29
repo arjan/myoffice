@@ -1,6 +1,11 @@
 {% extends "base.tpl" %}
 
 {% block content %}
+
+    {% if not m.myoffice.config.twitter_token %}
+        {% javascript %}document.location = '/configure';{% endjavascript %}
+    {% endif %}
+
     {% with m.myoffice.macaddr as mac %}
         {% if not mac %}
             <div class="alert alert-info">
@@ -16,7 +21,7 @@
                 <p>You have linked this computer to the @ouroffice notifier. Your MAC address is <em>{{ mac }}</em>.</p>
 
                 {% button class="btn btn-primary" text="Update your details"
-                    action={dialog_open title="Update your details" template="_dialog_create.tpl" user=user mac=mac}
+                    action={replace title="Update your details" template="_dialog_create.tpl" user=user mac=mac}
                 %}
 
                 {% if not user.foursquare_access_token %}
@@ -38,7 +43,7 @@
                 <p>You are not yet known to us.</p>
                 <p>
                     {% button class="btn btn-primary" text="Create your identity now"
-                        action={dialog_open title="Create identity" template="_dialog_create.tpl" mac=mac new}
+                        action={replace title="Create identity" template="_dialog_create.tpl" mac=mac new}
                     %}
                 </p>
             {% endif %}

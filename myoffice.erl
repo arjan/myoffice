@@ -37,11 +37,7 @@
 init(Context) ->
     application:start(buffalo),
 
-    lists:foreach(
-      fun(K) ->
-              application:set_env(ouroffice, K, m_config:get_value(site, K, Context))
-      end,
-      [twitter_ckey, twitter_csec, twitter_token, twitter_secret]),
+    reconfigure(Context),
 
     application:set_env(ouroffice, mac_lookup, fun ?MODULE:user_lookup/1),
     application:set_env(ouroffice, notifier_module, ?MODULE),
@@ -107,9 +103,26 @@ event(#postback{message={remove, [{mac, Mac}]}}, Context) ->
 
 event(#postback{message={remove_foursquare, [{mac, _Mac}]}}, Context) ->
     set_access_token(undefined, Context),
-    z_render:wire([{reload, []}], Context).
+    z_render:wire([{reload, []}], Context);
 
+event(#submit{message={configure, []}}, Context) ->
+    %% Save all values; reconfigure afterwards
+    Save = ["foursquare_client_id", "foursquare_client_secret", "foursquare_venue",
+            "twitter_ckey", "twitter_csec", "twitter_token", "twitter_secret"],
+    [m_myoffice:set_config(K, z_context:get_q_validated(K, Context), Context) || K <- Save],
+    reconfigure(Context),
+    z_render:wire([{redirect, [{url, "/"}]}], Context).
     
+
+reconfigure(Context) ->
+    lists:foreach(
+      fun(K) ->
+              application:set_env(ouroffice, K, m_myoffice:get_config(K, Context))
+      end,
+      ["twitter_ckey", "twitter_csec", "twitter_token", "twitter_secret"]),
+    ok.
+
+
 
 map_gender("F") -> f;
 map_gender(_) -> m.

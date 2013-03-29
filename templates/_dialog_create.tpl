@@ -1,7 +1,7 @@
 <p>Please enter your details to {% if new %}enable{% else %}update{% endif %} the @ouroffice notifier for this computer.</p>
 
 {% wire type="submit" id=#create postback={update mac=mac} delegate=`myoffice` %}
-<form id="{{ #create }}" action="postback" method="post" class="form-horizontal">
+<form id="{{ #create }}" action="postback" method="post">
 
     <div class="control-group">
 	    <label class="control-label" for="{{ #name }}">Your name</label>
@@ -26,7 +26,7 @@
     <div class="control-group">
         <div class="controls">
 
-            {% button class="btn" action={dialog_close} text="Cancel" tag="a" %}
+            {% button class="btn" action={reload} text="Cancel" tag="a" %}
             <button class="btn btn-primary" type="submit">{_ Submit _}</button>
         </div>
     </div>

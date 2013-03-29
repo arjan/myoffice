@@ -35,8 +35,8 @@ moved_temporarily(ReqData, Context) ->
     RedirectUrl = mod_foursquare:redirect_uri(Context1),
 
     Url = "https://foursquare.com/oauth2/access_token"
-        ++ "?client_id=" ++ z_convert:to_list(m_config:get_value(mod_foursquare, client_id, Context))
-        ++ "&client_secret=" ++ z_convert:to_list(m_config:get_value(mod_foursquare, client_secret, Context))
+        ++ "?client_id=" ++ z_convert:to_list(m_myoffice:get_config(foursquare_client_id, Context))
+        ++ "&client_secret=" ++ z_convert:to_list(m_myoffice:get_config(foursquare_client_secret, Context))
         ++ "&grant_type=authorization_code"
         ++ "&redirect_uri=" ++ z_convert:to_list(z_utils:url_encode(RedirectUrl))
         ++ "&code=" ++ z_convert:to_list(z_utils:url_encode(Code)),

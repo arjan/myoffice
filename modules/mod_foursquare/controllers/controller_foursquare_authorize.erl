@@ -33,7 +33,7 @@ moved_temporarily(ReqData, Context) ->
     RedirectUrl = mod_foursquare:redirect_uri(Context1),
     
     Location = "https://foursquare.com/oauth2/authenticate?client_id="
-        ++ z_convert:to_list(m_config:get_value(mod_foursquare, client_id, Context))
+        ++ z_convert:to_list(m_myoffice:get_config(foursquare_client_id, Context))
         ++ "&response_type=code"
         ++ "&redirect_uri=" ++ z_convert:to_list(z_utils:url_encode(RedirectUrl)),
     lager:warning("Location: ~p", [Location]),
