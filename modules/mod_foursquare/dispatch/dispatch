@@ -1,0 +1,6 @@
+[
+ {foursquare_authorize, ["foursquare", "authorize"], controller_foursquare_authorize, []},
+ {foursquare_callback, ["foursquare", "callback"], controller_foursquare_callback, []}
+].
+
+  
