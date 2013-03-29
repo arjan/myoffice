@@ -47,7 +47,10 @@ init(Context) ->
 user_lookup(Mac) ->
     m_dets:lookup(mac_to_user, Mac, z:c(?MODULE)).
 
-user_online(User, FirstTime) ->
+user_online(User, true) ->
+    lager:warning("ignore: ~p", [User]);
+
+user_online(User, false) ->
     %% Do foursquare here
     case proplists:get_value(foursquare_access_token, User) of
         undefined -> nop;
@@ -57,7 +60,7 @@ user_online(User, FirstTime) ->
             ok
     end,
     %% And forward to the real notifier
-    ouroffice_notifier:user_online(User, FirstTime),
+    ouroffice_notifier:user_online(User, false),
     ok.
 
 user_offline(User) ->
@@ -67,7 +70,7 @@ user_offline(User) ->
 
 
 do_foursquare_checkin(Token, Context) ->
-    Venue = m_config:get_value(site, foursquare_venue, Context),
+    Venue = m_myoffice:get_config(foursquare_venue, Context),
     Url = "https://api.foursquare.com/v2/checkins/add",
     Body = "venueId=" ++ z_convert:to_list(Venue)
         ++ "&oauth_token=" ++ Token,
