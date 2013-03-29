@@ -13,11 +13,22 @@
             <h2>Hi, {{ user.name|default:mac }}!</h2>
 
             {% if user %}
-                <p>You have linked this computer to the @ouroffice notifier.</p>
+                <p>You have linked this computer to the @ouroffice notifier. Your MAC address is <em>{{ mac }}</em>.</p>
 
                 {% button class="btn btn-primary" text="Update your details"
                     action={dialog_open title="Update your details" template="_dialog_create.tpl" user=user mac=mac}
                 %}
+
+                {% if not user.foursquare_access_token %}
+                    {% button class="btn" text="Connect to Foursquare"
+                        action={redirect dispatch=`foursquare_authorize`}
+                    %}
+                {% else %}
+                {% button class="btn" text="Remove Foursquare access"
+                    action={confirm text="Are you sure you want to remove yourself from the Foursquare checkins?" postback={remove_foursquare mac=mac} delegate=`myoffice`}
+                %}
+
+                {% endif %}
 
                 {% button class="btn btn-danger" text="Remove" class="pull-right"
                     action={confirm text="Are you sure you want to remove yourself from the notifier?" postback={remove mac=mac} delegate=`myoffice`}
