@@ -120,12 +120,10 @@ event(#submit{message={configure, []}}, Context) ->
 reconfigure(Context) ->
     lists:foreach(
       fun(K) ->
-              application:set_env(ouroffice, K, m_myoffice:get_config(K, Context))
+              application:set_env(ouroffice, list_to_atom(K), m_myoffice:get_config(K, Context))
       end,
       ["twitter_ckey", "twitter_csec", "twitter_token", "twitter_secret"]),
     ok.
-
-
 
 map_gender("F") -> f;
 map_gender(_) -> m.
