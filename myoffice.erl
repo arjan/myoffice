@@ -73,7 +73,8 @@ do_foursquare_checkin(Token, Context) ->
     Venue = m_myoffice:get_config(foursquare_venue, Context),
     Url = "https://api.foursquare.com/v2/checkins/add",
     Body = "venueId=" ++ z_convert:to_list(Venue)
-        ++ "&oauth_token=" ++ Token,
+        ++ "&oauth_token=" ++ Token
+        ++ "&v=20130408",
     {ok, R} = httpc:request(post, {Url, [], "application/x-www-form-urlencoded", Body}, [], []),
     lager:warning("R: ~p", [R]),
     ok.
