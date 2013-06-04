@@ -18,7 +18,7 @@
             <h2>Hi, {{ user.name|default:mac }}!</h2>
 
             {% if user %}
-                <p>You have linked this computer to the @ouroffice notifier. Your MAC address is <em>{{ mac }}</em>.</p>
+                <p>You have linked this computer to the Hackers &amp; Founders notifier. Your MAC address is <em>{{ mac }}</em>.</p>
 
                 {% button class="btn btn-primary" text="Update your details"
                     action={replace title="Update your details" template="_dialog_create.tpl" user=user mac=mac}

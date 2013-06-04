@@ -1,4 +1,4 @@
-<p>Please enter your details to {% if new %}enable{% else %}update{% endif %} the @ouroffice notifier for this computer.</p>
+<p>Please enter your details to {% if new %}enable{% else %}update{% endif %} the Hackers &amp; Founders notifier for this computer.</p>
 
 {% wire type="submit" id=#create postback={update mac=mac} delegate=`myoffice` %}
 <form id="{{ #create }}" action="postback" method="post">
