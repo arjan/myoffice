@@ -95,8 +95,13 @@ current_user(Context) ->
     user_lookup(m_myoffice:macaddr(Context)).
 
 event(#submit{message={update, [{mac, Mac}]}}, Context) ->
-    User = [{name, z_context:get_q("name", Context)},
-            {gender, map_gender(z_context:get_q("gender", Context))}],
+    OldUser = myoffice:current_user(Context),
+    User = z_utils:prop_replace(
+             name, z_context:get_q("name", Context),
+             z_utils:prop_replace(
+               gender, map_gender(z_context:get_q("gender", Context)),
+               OldUser)
+            ),
     lager:warning("User: ~p", [User]),
     m_dets:insert(mac_to_user, Mac, User, Context),
     z_render:wire([{reload, []}], Context);
@@ -119,6 +124,8 @@ event(#submit{message={configure, []}}, Context) ->
     
 
 reconfigure(Context) ->
+    application:set_env(ouroffice, subnet, "10.0.1.0/24"),
+
     lists:foreach(
       fun(K) ->
               application:set_env(ouroffice, list_to_atom(K), m_myoffice:get_config(K, Context))
