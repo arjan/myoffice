@@ -125,6 +125,7 @@ event(#submit{message={configure, []}}, Context) ->
 
 reconfigure(Context) ->
     application:set_env(ouroffice, subnet, "10.0.1.0/24"),
+    application:set_env(ouroffice, user_timeout, 5*60*1000),
 
     lists:foreach(
       fun(K) ->
