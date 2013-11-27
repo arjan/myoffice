@@ -45,7 +45,12 @@ init(Context) ->
     ok.
 
 user_lookup(Mac) ->
-    m_dets:lookup(mac_to_user, Mac, z:c(?MODULE)).
+    case m_dets:lookup(mac_to_user, Mac, z:c(?MODULE)) of
+        undefined ->
+            [];
+        U ->
+            U
+    end.
 
 user_online(User, true) ->
     lager:warning("ignore: ~p", [User]);
