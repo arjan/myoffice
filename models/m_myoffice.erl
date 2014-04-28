@@ -52,9 +52,4 @@ ip(Context) ->
 
 macaddr(Context) ->
     Peer = ip(Context),
-    z_depcache:memo(fun() ->
-                            ouroffice_scanner:macaddr(Peer)
-                    end,
-                    {mac, Peer},
-                    Context).
-
+    ouroffice_scanner:macaddr(Peer).
