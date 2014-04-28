@@ -36,6 +36,7 @@
 
 init(Context) ->
     application:start(buffalo),
+    application:start(ouroffice),
 
     reconfigure(Context),
 
