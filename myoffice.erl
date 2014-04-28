@@ -39,7 +39,7 @@ init(Context) ->
 
     reconfigure(Context),
 
-    application:set_env(ouroffice, subnet, binary_to_list(m_config:get_value(site, scanner_subnet, <<"192.168.0.0/24">>))),
+    application:set_env(ouroffice, subnet, binary_to_list(m_config:get_value(site, scanner_subnet, <<"192.168.0.0/24">>, Context))),
     application:set_env(ouroffice, mac_lookup, fun ?MODULE:user_lookup/1),
     application:set_env(ouroffice, notifier_module, ?MODULE),
     ouroffice_sup:start_link(),
